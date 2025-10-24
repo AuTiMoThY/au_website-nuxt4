@@ -1,0 +1,11 @@
+@use 'sass:map';
+@use '../variable/font' as *;
+@use '../functions/px-to-rem' as *;
+
+
+@mixin font_setting($font_type) {
+    font-size: #{px-to-rem(map.get(map.get($font, $font_type), "fz"))};
+    font-weight: map.get(map.get($font, $font_type), "fw");
+    letter-spacing: map.get(map.get($font, $font_type), "ls");
+    line-height: map.get(map.get($font, $font_type), "lh");
+}

@@ -1,0 +1,44 @@
+@use "~/assets/scss/core" as *;
+
+.section-home_hero {
+    height: 100dvh;
+
+    color: var(--gray-0);
+    font-family: "Kodchasan", sans-serif;
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.hero-hello {
+    font-size: clamp(24px, set-vw(32, 1920), 32px);
+}
+
+.hero-title {
+    font-size: clamp(40px, set-vw(48, 1920), 48px);
+}
+
+.hero-subtitle {
+
+    font-size: clamp(24px, set-vw(32, 1920), 32px);
+
+    &-text {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &-number {
+        font-size: 1.2em;
+        color: var(--tertiary);
+    }
+}

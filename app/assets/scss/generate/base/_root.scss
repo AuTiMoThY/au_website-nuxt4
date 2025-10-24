@@ -1,0 +1,33 @@
+@use '../../core' as *;
+
+:root {
+    --body-width: 100%;
+    // --body-width: clamp(375px, 100%, 540px);
+
+    --container-width: clamp(375px, 100% - 80px, 1440px);
+    // @include media-down(1280) {
+    //     --body-width: clamp(375px, 100%, 540px);
+    //     --container-width: #{relative-percentage((375 - 16 * 2), 375)};
+    // }
+}
+:root {
+    --spacing: 80px;
+    --spacing-half: calc(80px / 2);
+
+    @media screen and (max-width: 768px) {
+        --spacing: 56px;
+        --spacing-half: calc(56px / 2);
+    }
+}
+
+:root {
+    @each $multiple in (1, 2, 4, 8, 16) {
+        --spacing-#{$multiple}x: #{8px * $multiple};
+    }
+}
+
+:root {
+    @each $name, $value in $color {
+        --#{$name}: #{$value};
+    }
+}

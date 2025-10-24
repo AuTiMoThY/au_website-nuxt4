@@ -1,0 +1,172 @@
+<script setup lang="ts">
+import gsap from "gsap";
+
+const initPath = (selector: string) => {
+    const path = document.querySelector(selector) as SVGPathElement;
+    const length = path.getTotalLength();
+    gsap.set(".app_loading-icon", {
+        opacity: 1
+    });
+    gsap.set(path, {
+        strokeDasharray: length,
+        strokeDashoffset: length,
+        fill: "transparent",
+        stroke: "#F5FAFF"
+    });
+
+    return { path, length };
+};
+
+const createPathTimeline = (selector: string, fillColor = "#F5FAFF") => {
+    const element = (document.querySelector(selector) as SVGPathElement) || null;
+    if (!element) return gsap.timeline();
+
+    element.style.display = "block";
+
+    const { path, length } = initPath(selector);
+
+    // 建立時間軸
+    const startTl = gsap.timeline();
+
+    // 1. 描線動畫
+    startTl
+        .to(path, {
+            strokeDashoffset: 0,
+            duration: 1,
+            ease: "power2.inOut"
+        })
+
+        // 2. 填色動畫
+        .to(
+            path,
+            {
+                fill: fillColor,
+                duration: 0.3,
+                ease: "power2.inOut"
+            },
+            "+=0.3"
+        ) // 延遲0.3秒後開始
+
+        // 3. 淡化描線
+        .to(
+            path,
+            {
+                stroke: fillColor,
+                strokeOpacity: 0,
+                fillOpacity: 1,
+                duration: 0.3,
+                ease: "power2.inOut"
+            },
+            "-=0.5"
+        ); // 與填色動畫重疊0.5秒
+
+    return startTl;
+};
+
+const hideAll = () => {
+    gsap.set(["#path-1", "#path-2", "#path-3", "#path-4", "#path-5", "#path-6", "#path-7"], {
+        display: "none"
+    });
+};
+
+// 當頁面加載完畢後，等待0.3秒再在body添加loaded class
+onMounted(() => {
+    hideAll();
+
+    // 定義路徑配置（路徑選擇器和對應的填充顏色）
+    const paths = [
+        { selector: "#path-1", fillColor: "#E9F5FF" },
+        { selector: "#path-2", fillColor: "#E9F5FF" },
+        { selector: "#path-3", fillColor: "#FFF3F9" },
+        { selector: "#path-4", fillColor: "#F5FAFF" },
+        { selector: "#path-5", fillColor: "#F5FAFF" },
+        { selector: "#path-6", fillColor: "#F5FAFF" },
+        { selector: "#path-7", fillColor: "#F5FAFF" }
+    ];
+
+    // 建立主時間軸，並在動畫完成時添加 class
+    const masterTimeline = gsap.timeline({
+        onComplete: () => {
+            document.body.classList.add("animate-done");
+            gsap.fromTo(
+                ".app_loading-inner",
+                {
+                    opacity: 1,
+                    scale: 0
+                },
+                {
+                    opacity: 0,
+                    scale: 10,
+                    duration: 0.3,
+                    ease: "power2.inOut"
+                }
+            );
+
+            const endTl = gsap.timeline();
+            endTl.to(".app_loading-icon", {
+                opacity: 0,
+                duration: 0.6,
+                scale: 10,
+                ease: "power2.inOut"
+            });
+
+            setTimeout(() => {
+                document.body.classList.add("loaded");
+                document.querySelector(".app_loading")?.remove();
+            }, 300);
+        }
+    });
+
+    // 使用 stagger 依次添加每個路徑的動畫到主時間軸
+    paths.forEach((pathConfig, index) => {
+        const pathTl = createPathTimeline(pathConfig.selector, pathConfig.fillColor);
+        // 使用 position 參數設置 stagger 延遲
+        // 每個動畫延遲 0.1 秒開始（可調整此數值）
+        masterTimeline.add(pathTl, index * 0.1);
+    });
+});
+</script>
+<template>
+    <div class="app_loading">
+        <div class="app_loading-inner">
+            <div class="app_loading-bg1"></div>
+            <div class="app_loading-bg2"></div>
+            <div class="app_loading-icon">
+                <svg viewBox="0 0 50 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        id="path-1"
+                        d="M49.9974 35.36C49.9974 37.9827 48.1305 40.2599 45.558 40.7729L15.1653 46.8514C15.0727 46.8715 14.9801 46.879 14.8875 46.879C14.2294 46.879 13.6413 46.416 13.5061 45.7453C13.3535 44.9821 13.849 44.2389 14.6122 44.0862L45.0074 38.0077C46.2637 37.7549 47.1771 36.6413 47.1771 35.36C47.1771 34.0788 46.2637 32.9652 45.0074 32.7125L14.6147 26.6339C13.8515 26.4813 13.356 25.738 13.5087 24.9747C13.6613 24.2115 14.4046 23.716 15.1678 23.8686L45.5605 29.9472C48.133 30.4602 49.9999 32.7375 49.9999 35.36H49.9974Z"
+                        fill="#E9F5FF" />
+                    <path
+                        id="path-2"
+                        d="M28.3684 36.7715C27.5901 36.7715 26.957 36.1409 26.957 35.3601V31.9893C26.957 31.211 27.5877 30.5779 28.3684 30.5779C29.1492 30.5779 29.7798 31.2085 29.7798 31.9893V35.3601C29.7798 36.1383 29.1492 36.7715 28.3684 36.7715Z"
+                        fill="#E9F5FF" />
+                    <path
+                        id="path-3"
+                        d="M24.88 1.40889V14.8873C24.88 15.9208 24.6823 16.9494 24.2994 17.9078C23.914 18.8687 23.3434 19.7546 22.6277 20.5054C21.9796 21.1835 21.2163 21.7491 20.378 22.172C19.3895 22.6725 18.2959 22.9603 17.1898 23.0228C17.0372 23.0304 16.882 23.0354 16.7293 23.0354C12.2349 23.0354 8.5813 19.3793 8.5813 14.8848V1.40889C8.5813 0.630632 9.21193 0 9.99019 0C10.7685 0 11.4016 0.630632 11.4016 1.40889V14.8873C11.4016 15.7031 11.5918 16.5164 11.9546 17.2496C12.3175 17.9829 12.8205 18.5884 13.4436 19.0789C14.0667 19.5694 14.8175 19.9248 15.6007 20.095C16.6643 20.3251 17.7929 20.2201 18.7939 19.7996C19.6848 19.4243 20.4706 18.7987 21.0412 18.0179C21.6317 17.2071 21.9846 16.2337 22.0472 15.2326C22.0546 15.1175 22.0572 15.0024 22.0572 14.8873V1.40889C22.0597 0.630632 22.6903 0 23.4711 0C24.2519 0 24.88 0.630632 24.88 1.40889Z"
+                        fill="#FFF3F9" />
+                    <path
+                        id="path-4"
+                        d="M19.8426 18.058C19.312 18.5811 18.6488 18.9715 17.9081 19.1741C17.8131 19.1991 17.713 19.1516 17.6729 19.0615C17.3426 18.2983 17.1599 17.4549 17.1599 16.5715V8.19073C17.1599 7.50005 17.7004 6.90947 18.3886 6.89444C19.0768 6.87941 19.6674 7.44748 19.6674 8.14816V16.5715C19.6674 17.017 19.7449 17.4449 19.8876 17.8453C19.9126 17.9204 19.8976 18.0029 19.8426 18.058Z"
+                        fill="#F5FAFF" />
+
+                    <path
+                        id="path-5"
+                        d="M29.7799 8.14807V16.4764C29.7799 19.9598 26.9296 22.8952 23.4461 22.8827C22.9181 22.8827 22.4051 22.8126 21.9171 22.6875C21.7494 22.6449 21.7094 22.4273 21.852 22.3297C22.6228 21.7992 23.306 21.151 23.8791 20.4103C23.9116 20.3702 23.9566 20.3427 24.0092 20.3352C25.8535 20.0749 27.2749 18.4858 27.2749 16.5714V8.19064C27.2749 7.49996 27.8154 6.90938 28.5037 6.89435C29.2069 6.88184 29.7824 7.4474 29.7824 8.14807H29.7799Z"
+                        fill="#F5FAFF" />
+                    <path
+                        id="path-6"
+                        d="M1.41172 60.3596C1.29912 60.3596 1.18399 60.3471 1.06887 60.3173C0.313116 60.1273 -0.147315 59.3638 0.0428815 58.6081L6.39171 33.2129C2.74058 32.4021 0.000313713 29.1414 0.000313713 25.25C0.000313713 24.4717 0.630947 23.8386 1.41172 23.8386H10.6984C11.4768 23.8386 12.1098 24.4692 12.1098 25.25C12.1098 26.0308 11.4792 26.6614 10.6984 26.6614H3.01082C3.63145 28.9187 5.70097 30.5803 8.15095 30.5803C8.58635 30.5803 8.99428 30.7805 9.26207 31.1233C9.52979 31.4661 9.62492 31.9116 9.51979 32.3345L2.78057 59.2912C2.62043 59.932 2.04487 60.3596 1.41424 60.3596H1.41172Z"
+                        fill="#F5FAFF" />
+                    <path
+                        id="path-7"
+                        d="M29.7798 45.0848V58.9035C29.7798 59.6792 29.1717 60.3452 28.3959 60.3598C27.6202 60.375 26.9595 59.7368 26.9595 58.9511V45.5678C26.9595 45.4702 27.0296 45.3851 27.1272 45.3651L29.5321 44.8821C29.6597 44.8571 29.7798 44.9547 29.7798 45.0848Z"
+                        fill="#F5FAFF" />
+                </svg>
+            </div>
+        </div>
+    </div>
+</template>
+<style lang="scss">
+@use "../assets/scss/components/app_loading.scss" as *;
+</style>

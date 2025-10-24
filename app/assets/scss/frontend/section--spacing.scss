@@ -1,0 +1,10 @@
+.section--spacing {
+    padding-top: var(--spacing);
+    padding-bottom: var(--spacing);
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+}

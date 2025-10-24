@@ -1,0 +1,110 @@
+@use "~/assets/scss/core" as *;
+
+.app_card {
+    position: relative;
+
+    width: 330px;
+    border-radius: 1rem;
+
+    cursor: pointer;
+
+    &::before {
+        @include psudoClass;
+        @include absolute(0, $L: 0);
+        z-index: 1;
+        @include wh;
+        @include linear-gradient(to bottom right, au-color("primary") 0%, au-color("secondary") 100%);
+        border-radius: 1rem;
+        transition: all 0.3s $easeInOutCubic3;
+        opacity: 0.3;
+    }
+
+    &:hover {
+        &::before {
+            opacity: 0.8;
+        }
+        .app_card-inner {
+            // @include gradient-border(3px, linear-gradient(45deg, #ffb146, #c2fb70), 1rem, transparent);
+
+        }
+        .app_card-image img {
+            transform: scale(1.05);
+        }
+    }
+
+    @include active-effect;
+    &-inner {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        padding: 1rem;
+        border-radius: 1rem;
+
+        // filter: blur(4px);
+        backdrop-filter: blur(4px);
+
+        color: var(--primary-light);
+
+        font-family: "Kodchasan", "Noto Sans TC", sans-serif;
+
+        @include gradient-border(1px, linear-gradient(45deg, #ffb146, #c2fb70), 1rem, transparent);
+        // overflow: hidden;
+        // transition: all 0.3s ease-in-out;
+
+    }
+
+    &-image {
+        width: 100%;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: $shadow-secondary;
+
+        overflow: hidden;
+        // transition: transform 0.3s ease-in-out;
+
+        img {
+            transition: transform 0.3s ease-in-out;
+            aspect-ratio: 300 / 185;
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        &-hd {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        &-title, &-description {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        &-ft {
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-0);
+        }
+
+        &-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        &-skill {
+            &:not(:first-of-type) {
+                display: flex;
+                gap: 0.5rem;
+                &::before {
+                    content: "・";
+                    color: var(--gray-0);
+                }
+            }
+        }
+    }
+}

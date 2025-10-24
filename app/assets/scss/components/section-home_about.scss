@@ -1,0 +1,52 @@
+@use "~/assets/scss/core" as *;
+
+.section-home_about {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    min-height: 100dvh;
+
+}
+
+
+.section-home_about-content {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.tech-list {
+    // display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    gap: 40px;
+    font-family: "Kodchasan", sans-serif;
+}
+
+.tech-item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    white-space: nowrap;
+    > .title {
+        font-size: clamp(24px, set-vw(24, 1920), 24px);
+    }
+}
+
+.tech-sublist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tech-subitem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    &::before {
+        @include psudoClass;
+        @include circle(4px);
+        background-color: var(--gray-0);
+    }
+}

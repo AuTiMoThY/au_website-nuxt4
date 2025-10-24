@@ -1,0 +1,45 @@
+@use "~/assets/scss/core" as *;
+
+.app_loading {
+    @include fixed(0, 0, 0, 0);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: au-color(primary-dark);
+    &-bg1, &-bg2 {
+        @include absolute(50%, $L: 50%);
+        transform: translate(-50%, -50%);
+        @include circle(150);
+        background: radial-gradient(circle,rgba(#fff, 0.1) 0%, rgba(#fff, 0) 100%);
+        opacity: 0;
+        transition: opacity 0.3s $easeInOutCubic3;
+
+        .animate-done & {
+            opacity: 1;
+        }
+    }
+
+    &-bg2 {
+        @include circle(242);
+    }
+    &-inner {
+        position: relative;
+    }
+    &-icon {
+        position: relative;
+        z-index: 3;
+        width: 150px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        opacity: 0;
+
+        svg {
+            @include wh();
+        }
+    }
+}

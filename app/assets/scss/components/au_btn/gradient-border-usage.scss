@@ -1,0 +1,134 @@
+@use "~/assets/scss/core" as *;
+@use "~/assets/scss/abstracts/mixin/gradient" as *;
+
+// 使用漸層邊框的按鈕樣式範例
+
+.au_btn-gradient-border {
+    @include gradient-border(
+        $border-width: 2px,
+        $gradient: linear-gradient(45deg, #5B5DA8, #D5D6FF, #5B5DA8),
+        $border-radius: 8px,
+        $background-color: transparent
+    );
+    
+    color: #fff;
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+    }
+}
+
+.au_btn-animated-border {
+    @include animated-gradient-border(
+        $border-width: 2px,
+        $gradient: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b),
+        $border-radius: 12px,
+        $background-color: rgba(255, 255, 255, 0.1),
+        $animation-duration: 2s
+    );
+    
+    color: #fff;
+    padding: 12px 24px;
+    backdrop-filter: blur(10px);
+}
+
+.au_btn-brand-gradient {
+    @include gradient-border(
+        $border-width: 3px,
+        $gradient: radial-gradient(circle at top center, rgba(#5B5DA8, 0.8) 0, rgba(#D5D6FF, 0.8) 100%),
+        $border-radius: 10px,
+        $background-color: white
+    );
+    
+    color: #5B5DA8;
+    padding: 12px 24px;
+    font-weight: 600;
+    
+    &:hover {
+        color: #D5D6FF;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(91, 93, 168, 0.3);
+    }
+}
+
+.au_btn-glass-border {
+    @include gradient-border(
+        $border-width: 1px,
+        $gradient: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.4) 0%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.4) 100%
+        ),
+        $border-radius: 12px,
+        $background-color: rgba(255, 255, 255, 0.1)
+    );
+    
+    color: #fff;
+    padding: 12px 24px;
+    backdrop-filter: blur(10px);
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+// 響應式漸層邊框
+.au_btn-responsive-border {
+    @include gradient-border(
+        $border-width: clamp(1px, 0.5vw, 3px),
+        $gradient: linear-gradient(
+            45deg, 
+            #ff6b6b 0%, 
+            #4ecdc4 25%, 
+            #45b7d1 50%, 
+            #96ceb4 75%, 
+            #ff6b6b 100%
+        ),
+        $border-radius: clamp(4px, 2vw, 12px),
+        $background-color: white
+    );
+    
+    color: #333;
+    padding: clamp(8px, 2vw, 16px) clamp(16px, 4vw, 32px);
+    font-size: clamp(14px, 2.5vw, 18px);
+}
+
+// 多重漸層邊框效果
+.au_btn-multi-gradient {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    color: #333;
+    padding: 12px 24px;
+    
+    // 外層邊框
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        padding: 3px;
+        background: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+    
+    // 內層邊框
+    &::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        padding: 1px;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+}

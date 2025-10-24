@@ -1,0 +1,135 @@
+// CSS 邊框漸層範例
+// 這些是進階的邊框漸層技巧範例
+
+// 方法 1: 使用 border-image
+.gradient-border-image {
+    border: 3px solid;
+    border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4) 1;
+}
+
+// 方法 2: 使用偽元素 (推薦)
+.gradient-border-pseudo {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        padding: 2px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+}
+
+// 方法 3: 使用多重背景
+.gradient-border-multiple-bg {
+    background: 
+        linear-gradient(white, white) padding-box,
+        linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4) border-box;
+    border: 3px solid transparent;
+    border-radius: 10px;
+}
+
+// 方法 4: 動態漸層邊框
+.gradient-border-animated {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        padding: 2px;
+        background: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        animation: rotate 3s linear infinite;
+    }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// 方法 5: 結合您的專案色彩
+.gradient-border-brand {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        padding: 2px;
+        background: radial-gradient(circle at top center, rgba(#5B5DA8, 0.8) 0, rgba(#D5D6FF, 0.8) 100%);
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+}
+
+// 方法 6: 響應式漸層邊框
+.gradient-border-responsive {
+    position: relative;
+    background: white;
+    border-radius: clamp(4px, 2vw, 12px);
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        padding: 1px;
+        background: linear-gradient(
+            45deg, 
+            #ff6b6b 0%, 
+            #4ecdc4 25%, 
+            #45b7d1 50%, 
+            #96ceb4 75%, 
+            #ff6b6b 100%
+        );
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+}
+
+// 方法 7: 毛玻璃效果邊框
+.gradient-border-glass {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        padding: 1px;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.4) 0%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.4) 100%
+        );
+        border-radius: inherit;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+    }
+}

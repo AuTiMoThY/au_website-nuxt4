@@ -1,0 +1,64 @@
+@use "~/assets/scss/core" as *;
+
+.app_header {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    padding: 16px 0;
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &-logo {
+        .link {
+            display: flex;
+            gap: 0.5rem;
+            align-items: baseline;
+
+            color: var(--secondary-light);
+            font-size: 40px;
+            font-family: "Kodchasan", sans-serif;
+        }
+        img {
+            width: 50px;
+        }
+    }
+
+    &-nav {
+        display: flex;
+        gap: 32px;
+
+        width: fit-content;
+
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        background-color: var(--secondary-dark);
+        color: var(--secondary-light);
+
+
+        font-family: "Kodchasan", sans-serif;
+
+        &-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            &::before {
+                @include psudoClass;
+                @include wh(6, 10);
+                border-radius: 6px;
+                background-color: var(--secondary-light);
+
+                transition: background-color 0.3s ease-in-out;
+            }
+
+            &:hover {
+                color: var(--secondary);
+                &::before {
+                    background-color: var(--secondary);
+                }
+            }
+        }
+    }
+}

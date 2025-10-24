@@ -1,0 +1,78 @@
+@use "~/assets/scss/core" as *;
+
+
+html,
+body {
+    min-height: -webkit-fill-available;
+}
+
+html {
+    // background: linear-gradient(#121927 0%, #1a2234 50%);
+
+    // @media screen and (max-width: 475px) {
+    //     height: 100%;
+    //     height: calc(var(--vh, 100vh));
+    //     overflow: hidden;
+    // }
+}
+
+body {
+    // width: var(--body-width);
+    // height: 100dvh;
+    // margin: auto;
+    color: au-color(text);
+    background-color: au-color(primary-dark);
+    font-family: "Noto Sans TC", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
+
+@layer base {
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+a {
+    color: currentColor;
+    transition:
+        color 0.3s ease-in-out,
+        background-color 0.3s ease-in-out,
+        box-shadow 0.3s ease-in-out;
+
+    @include element-effect(false, true);
+}
+
+// .page_section {
+//     padding-top: var(--spacing-half);
+//     padding-bottom: var(--spacing-half);
+// }
+
+// .page_head {
+//     padding-top: var(--spacing);
+//     padding-bottom: var(--spacing-half);
+// }
+
+// span.icon {
+//     display: flex;
+// }
+
+// .show-1366-down {
+//     display: none;
+//     @include media-down(1366) {
+//         display: block;
+//     }
+// }
+
+// .input-controll {
+//     width: 100%;
+//     height: 100%;
+//     background-color: transparent;
+//     border: none;
+// }
+
+// .flex-row {
+//     display: flex;
+// }

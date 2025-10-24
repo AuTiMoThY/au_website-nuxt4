@@ -1,0 +1,8 @@
+@mixin img_hover() {
+    .default {
+        opacity: 0;
+    }
+    .hover {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,36 @@
+.section-home_projects {
+    min-height: 100dvh;
+
+    &-ft {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        .link {
+
+        }
+    }
+}
+
+.projects-swiper {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+// Fallback 樣式（服務器端渲染時使用）
+.projects-fallback {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.projects-fallback-item {
+    // 確保 fallback 項目有適當的間距
+}

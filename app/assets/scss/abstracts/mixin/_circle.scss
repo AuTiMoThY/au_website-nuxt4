@@ -1,0 +1,12 @@
+@use "sass:math";
+@mixin circle($width, $height: $width) {
+    @if (math.is-unitless($width)) {
+        $width: $width * 1px;
+    }
+    @if (math.is-unitless($height)) {
+        $height: $height * 1px;
+    }
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+}

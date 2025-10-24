@@ -1,0 +1,170 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:list";
+
+/// Test if `$value` is a valid direction
+/// @param {*} $value - Value to test
+/// @return {Bool}
+///
+@function is-direction($value) {
+    $is-keyword: list.index(
+        (
+            to top,
+            to top right,
+            to right top,
+            to right,
+            to bottom right,
+            to right bottom,
+            to bottom,
+            to bottom left,
+            to left bottom,
+            to left,
+            to left top,
+            to top left
+        ),
+        $value
+    );
+    $is-angle: meta.type-of($value) == "number" and index("deg" "grad" "turn" "rad", unit($value));
+
+    @return $is-keyword or $is-angle;
+}
+
+/// Convert a direction to legacy syntax
+/// @param {Keyword | Angle} $value - Value to convert
+/// @require {function} is-direction
+/// @require {function} convert-angle
+/// @throw Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be a direction.;
+@function legacy-direction($value) {
+    @if is-direction($value) == false {
+        @error "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be a direction.";
+    }
+
+    $conversion-map: (
+        to top: bottom,
+        to top right: bottom left,
+        to right top: left bottom,
+        to right: left,
+        to bottom right: top left,
+        to right bottom: left top,
+        to bottom: top,
+        to bottom left: top right,
+        to left bottom: right top,
+        to left: right,
+        to left top: right bottom,
+        to top left: bottom right
+    );
+
+    @if map.has-key($conversion-map, $value) {
+        @return map.get($conversion-map, $value);
+    }
+
+    @return 90deg - $value;
+}
+
+/// Mixin printing a linear-gradient
+/// as well as a plain color fallback
+/// and the `-webkit-` prefixed declaration
+/// @access public
+/// @param {Keyword | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+
+@mixin linear-gradient($direction, $color-stops...) {
+    // Direction has been omitted and happens to be a color-stop
+    @if is-direction($direction) == false {
+        $color-stops: $direction, $color-stops;
+        $direction: 180deg;
+    }
+
+    background: list.nth(list.nth($color-stops, 1), 1);
+    background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+    background: linear-gradient($direction, $color-stops);
+}
+
+/// 創建漸層邊框的 mixin
+/// @param {Number} $border-width - 邊框寬度
+/// @param {String} $gradient - 漸層樣式
+/// @param {Number} $border-radius - 邊框圓角 (可選)
+/// @param {String} $background-color - 內部背景色 (可選)
+@mixin gradient-border(
+    $border-width: 2px,
+    $gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4),
+    $border-radius: 0,
+    $background-color: white
+) {
+    position: relative;
+    background: $background-color;
+    @if $border-radius > 0 {
+        border-radius: $border-radius;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -#{$border-width};
+        padding: #{$border-width};
+        background: $gradient;
+        @if $border-radius > 0 {
+            border-radius: inherit;
+        }
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+
+        transition: all 0.3s ease-in-out;
+        pointer-events: none;
+    }
+}
+
+/// 創建動畫漸層邊框的 mixin
+/// @param {Number} $border-width - 邊框寬度
+/// @param {String} $gradient - 漸層樣式
+/// @param {Number} $border-radius - 邊框圓角 (可選)
+/// @param {String} $background-color - 內部背景色 (可選)
+/// @param {Number} $animation-duration - 動畫持續時間
+@mixin animated-gradient-border(
+    $border-width: 2px,
+    $gradient: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b),
+    $border-radius: 0,
+    $background-color: white,
+    $animation-duration: 3s
+) {
+    position: relative;
+    background: $background-color;
+    @if $border-radius > 0 {
+        border-radius: $border-radius;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -#{$border-width};
+        padding: #{$border-width};
+        background: $gradient;
+        @if $border-radius > 0 {
+            border-radius: inherit;
+        }
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        animation: gradient-rotate $animation-duration linear infinite;
+    }
+
+    @keyframes gradient-rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}

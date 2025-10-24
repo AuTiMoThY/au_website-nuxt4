@@ -1,0 +1,25 @@
+@use "~/assets/scss/core" as *;
+
+
+.section--title {
+    position: relative;
+    font-family: "Kodchasan", sans-serif;
+
+    color: var(--gray-0);
+
+    text-align: center;
+
+    &::before {
+        content: attr(data-title);
+        @include absolute(50%, $L: 50%);
+        transform: translate(-50%, -50%);
+        z-index: -1;
+
+        color: var(--gray-0);
+        font-size: set-vw(96*2, 1920);
+
+        white-space: nowrap;
+
+        opacity: 0.05;
+    }
+}

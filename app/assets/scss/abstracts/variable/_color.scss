@@ -1,0 +1,33 @@
+@use "sass:color";
+
+$primary: #4BA0E7;
+$secondary: #F76EAC;
+
+$color: (
+    "gray-0": #F5FAFF,
+    "gray-1": #C6CBCF,
+    "gray-2": #848789,
+    "gray-3": #4D4F51,
+    "gray-4": #242526,
+
+    "text": #595757,
+    "text-dark": #2D2D2D,
+    "text-light": #F5FAFF,
+
+    "primary": $primary,
+    "primary-dark": #132D42,
+    "primary-light": #E9F5FF,
+
+    "secondary": $secondary,
+    "secondary-dark": #2F131F,
+    "secondary-light": #FFF3F9,
+
+    "tertiary": #FFB146,
+    // "tertiary-light": #DAFFE8,
+
+    "error": #FF1744,
+    "success": #00E676,
+
+);
+
+

@@ -1,0 +1,11 @@
+@use "../variable/color" as *;
+@use "sass:map";
+
+@function au-color($key) {
+    @if map.has-key($color, $key) {
+        @return map.get($color, $key);
+    }
+    
+    @error "找不到顏色: #{$key}";
+    @return null;
+}
