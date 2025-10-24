@@ -21,15 +21,25 @@
 
 .hero-hello {
     font-size: clamp(24px, set-vw(32, 1920), 32px);
+
+    @include rwd-mobile() {
+        font-size: clamp(18px, set-vw(24, 768), 24px);
+    }
 }
 
 .hero-title {
     font-size: clamp(40px, set-vw(48, 1920), 48px);
+    @include rwd-mobile() {
+        font-size: clamp(24px, set-vw(40, 768), 40px);
+    }
 }
 
 .hero-subtitle {
 
     font-size: clamp(24px, set-vw(32, 1920), 32px);
+    @include rwd-mobile() {
+        font-size: clamp(18px, set-vw(24, 768), 24px);
+    }
 
     &-text {
         display: flex;

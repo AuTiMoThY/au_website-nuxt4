@@ -3,7 +3,6 @@
 
 .section--title {
     position: relative;
-    font-family: "Kodchasan", sans-serif;
 
     color: var(--gray-0);
 
@@ -17,6 +16,9 @@
 
         color: var(--gray-0);
         font-size: set-vw(96*2, 1920);
+        @include rwd-mobile() {
+            font-size: clamp(96px, set-vw(192, 768), 192px);
+        }
 
         white-space: nowrap;
 

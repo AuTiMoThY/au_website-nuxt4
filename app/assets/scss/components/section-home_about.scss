@@ -12,12 +12,17 @@
 .section-home_about-content {
     width: 600px;
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .tech-list {
     // display: grid;
     // grid-template-columns: repeat(3, 1fr);
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
     font-family: "Kodchasan", sans-serif;
 }

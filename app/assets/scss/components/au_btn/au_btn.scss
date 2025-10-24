@@ -1,9 +1,9 @@
 @use "~/assets/scss/core" as *;
 
-$txt-color: au-color(primary-light);
-$txt-hover-color: au-color(primary);
-$bg-color: au-color(primary);
-$bg-hover-color: au-color("primary-light");
+$txt-color: au-color(primary);
+$txt-hover-color: au-color(primary-light);
+$bg-color: au-color(primary-light);
+$bg-hover-color: au-color("primary");
 $bd-color: au-color(primary);
 $bd-hover-color: au-color(primary);
 $hover-shadow:
@@ -94,7 +94,10 @@ $hover-shadow:
         z-index: 2;
         &.icon-prepend,
         &.icon-append {
-            width: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
         }
 
         &.icon-top {

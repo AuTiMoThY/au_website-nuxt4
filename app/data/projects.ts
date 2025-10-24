@@ -41,7 +41,7 @@ export const projects: ProjectMeta[] = [
         description: "",
         cover: "huhu38org/38org.jpg",
         tags: ["SCSS", "Nunjucks", "JavaScript", "GSAP"],
-        category: ["前端開發"],
+        category: ["前端製作"],
         featured: true,
         published: true,
         links: {

@@ -1,6 +1,7 @@
 .section--spacing {
     padding-top: var(--spacing);
     padding-bottom: var(--spacing);
+    overflow: hidden;
 
     .container {
         display: flex;

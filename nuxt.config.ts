@@ -108,8 +108,8 @@ export default defineNuxtConfig({
         public: {
             version,
             basePath,
-            imgPath: `images/`,
-            jsPath: `js/`
+            imgPath: `${basePath}images/`,
+            jsPath: `${basePath}js/`
         }
     }
 });

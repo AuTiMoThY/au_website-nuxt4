@@ -71,8 +71,10 @@ export const useProjects = () => {
     /**
      * 根據分類篩選專案
      */
-    const filterByCategory = (category: ProjectMeta["category"]) => {
-        return getPublishedProjects().filter((p: ProjectMeta) => p.category === category);
+    const filterByCategory = (category: string[]) => {
+        return getPublishedProjects().filter((p: ProjectMeta) =>
+            p.category.some((c: string) => category.includes(c))
+        );
     };
 
     /**

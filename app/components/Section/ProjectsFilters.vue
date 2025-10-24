@@ -4,23 +4,20 @@ import type { ProjectMeta } from "~/data/projects";
 // 使用 composable
 const { getAllProjects, getAllCategories, filterByCategory } = useProjects();
 
-// 是否顯示篩選器
-const showFilters = ref(true); // 設為 true 啟用分類篩選
-
 // 取得專案資料
 const allProjects = getAllProjects();
 const categories = getAllCategories();
 
-// // 選擇的分類
-// const selectedCategory = ref<string | null>(null);
+// 選擇的分類
+const selectedCategory = ref<string | null>(null);
 
-// // 顯示的專案列表
-// const displayedProjects = computed(() => {
-//     if (selectedCategory.value) {
-//         return filterByCategory(selectedCategory.value);
-//     }
-//     return allProjects;
-// });
+// 顯示的專案列表
+const displayedProjects = computed(() => {
+    if (selectedCategory.value) {
+        return filterByCategory([selectedCategory.value]);
+    }
+    return allProjects;
+});
 </script>
 <template>
     <section class="section-projects_filters section--spacing">
@@ -34,11 +31,38 @@ const categories = getAllCategories();
             </div>
             <div class="section-projects_filters-bd">
                 <ul class="filters-list">
+                    <li class="filter-item">
+                        <AuBtn
+                            txt="全部"
+                            :class="[
+                                'au_btn',
+                                'au_btn-round',
+                                'au_btn-filter',
+                                { active: selectedCategory === null }
+                            ]"
+                            @click="selectedCategory = null" />
+                    </li>
                     <li v-for="category in categories" :key="category" class="filter-item">
-                        <AuBtn :txt="category" class="au_btn au_btn-round filter-btn" />
+                        <AuBtn
+                            :txt="category"
+                            :class="[
+                                'au_btn',
+                                'au_btn-round',
+                                'au_btn-filter',
+                                { active: selectedCategory === category }
+                            ]"
+                            @click="selectedCategory = category" />
+                    </li>
+                </ul>
+                <ul class="projects-list">
+                    <li v-for="project in displayedProjects" :key="project.slug" class="project-item">
+                        <AppCard :project="project" />
                     </li>
                 </ul>
             </div>
         </div>
     </section>
 </template>
+<style lang="scss" scoped>
+@use "../../assets/scss/components/section-projects_filters.scss" as *;
+</style>
