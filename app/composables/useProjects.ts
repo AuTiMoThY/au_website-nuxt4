@@ -37,16 +37,24 @@ export const useProjects = () => {
      * @param slug 專案 slug
      */
     const getProjectDetail = async (slug: string) => {
-        // 取得元資料
-        const meta = getProjectBySlug(slug);
+        try {
+            // 取得元資料
+            const meta = getProjectBySlug(slug);
 
-        // 取得 Markdown 內容
-        const content = await queryCollection("content").path(`/projects/${slug}`).first();
+            // 取得 Markdown 內容
+            const content = await queryCollection("content").path(`/projects/${slug}`).first();
 
-        return {
-            meta,
-            content
-        };
+            return {
+                meta,
+                content
+            };
+        } catch (error) {
+            console.error("Error fetching project detail:", error);
+            return {
+                meta: null,
+                content: null
+            };
+        }
     };
 
     /**
@@ -56,13 +64,21 @@ export const useProjects = () => {
         const projects = getPublishedProjects();
         const projectsWithContent = await Promise.all(
             projects.map(async (meta: ProjectMeta) => {
-                const content = await queryCollection("content")
-                    .path(`/projects/${meta.slug}`)
-                    .first();
-                return {
-                    meta,
-                    content
-                };
+                try {
+                    const content = await queryCollection("content")
+                        .path(`/projects/${meta.slug}`)
+                        .first();
+                    return {
+                        meta,
+                        content
+                    };
+                } catch (error) {
+                    console.error(`Error fetching content for project ${meta.slug}:`, error);
+                    return {
+                        meta,
+                        content: null
+                    };
+                }
             })
         );
         return projectsWithContent;

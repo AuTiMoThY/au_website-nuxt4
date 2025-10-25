@@ -14,7 +14,7 @@ title: 現代婦女基金會-活動頁
 開發過程
 </h3>
 
-從設計稿中提取素材，並詳細檢視元素間距、字體大小、顏色等設定。<br />
+從設計稿中提取素材，並詳細檢視元素間距、字體大小、顏色等設定進行切版。<br />
 為了營造故事感，採用了視差滾動技術，藉由 GASP 及 ScrollMagic 達到視差滾動效果。
 
 <video autoplay muted loop playsinline preload="auto">

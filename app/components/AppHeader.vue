@@ -7,7 +7,7 @@ import { useWindowScroll } from "@vueuse/core";
 const { y } = useWindowScroll();
 
 const handleScroll = () => {
-    scrolled.value = y.value >= 200;
+    scrolled.value = y.value >= 50;
 };
 
 const isMobileMenuOpen = ref(false);

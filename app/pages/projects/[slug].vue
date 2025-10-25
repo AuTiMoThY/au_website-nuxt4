@@ -5,13 +5,21 @@ import { getProjectBySlug, getPublishedProjects, type ProjectMeta } from "~/data
 const route = useRoute();
 const slug = computed(() => route.params.slug as string);
 
+console.log(slug.value);
+console.log(route.path);
+
 // 從 data/projects.ts 取得元資料
 const projectMeta = computed(() => getProjectBySlug(slug.value) as ProjectMeta);
 
 // 從 Nuxt Content 取得詳細內容
-const { data: project, error } = await useAsyncData(route.path, () =>
-    queryCollection("content").path(route.path).first()
-);
+const { data: project, error } = await useAsyncData(route.path, async () => {
+    try {
+        return await queryCollection("content").path(route.path).first();
+    } catch (err) {
+        console.error("Error fetching project content:", err);
+        return null;
+    }
+});
 
 if (error.value || !project.value) {
     throw createError({
@@ -20,22 +28,32 @@ if (error.value || !project.value) {
         fatal: true
     });
 }
-console.log(route.path);
+
+// SEO 設定
+useSeoMeta({
+    title: projectMeta.value?.title,
+    description: projectMeta.value?.description,
+    ogTitle: projectMeta.value?.title,
+    ogDescription: projectMeta.value?.description,
+    ogImage: projectMeta.value?.cover
+});
 </script>
 <template>
     <div id="pageWrapper" class="page_wrapper page-project_detail" ref="el">
         <div class="page_content">
             <div class="project_detail-hd">
-                <div class="cover">
+                <div class="banner">
                     <NuxtImg
-                        :src="`${useConfig().imgPath}projects/${projectMeta.cover}`"
+                        :src="`${useConfig().imgPath}projects/${projectMeta.banner}`"
                         :alt="projectMeta.title"
                         format="webp"
                         loading="lazy" />
                 </div>
                 <div class="content">
                     <div class="container">
-                        <h1 class="project_detail-title font-h2 txt-gray-0">{{ projectMeta.title }}</h1>
+                        <h1 class="project_detail-title font-h2 txt-gray-0">
+                            {{ projectMeta.title }}
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -72,7 +90,7 @@ console.log(route.path);
                                 </li>
                             </ul>
                             <div class="project_detail-aside-block">
-                                <b class="font-h3">我的角色</b>
+                                <b class="font-h3">角色定位</b>
                                 <p class="font-body">
                                     {{ projectMeta.category.join(", ") }}
                                 </p>
@@ -84,7 +102,10 @@ console.log(route.path);
                                 </p>
                             </div>
                         </div>
-                        <ContentRenderer :value="project as any" class="project_detail-content">
+                        <ContentRenderer
+                            v-if="project"
+                            :value="project as any"
+                            class="project_detail-content">
                             <template #empty>
                                 <p>專案內容載入中...</p>
                             </template>

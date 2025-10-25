@@ -5,9 +5,7 @@
     flex-direction: column;
     gap: 80px;
     min-height: 100dvh;
-
 }
-
 
 .section-home_about-content {
     width: 600px;
@@ -22,9 +20,11 @@
     // display: grid;
     // grid-template-columns: repeat(3, 1fr);
     display: flex;
-    flex-wrap: wrap;
     gap: 40px;
-    font-family: "Kodchasan", sans-serif;
+
+    @include rwd-mobile() {
+        flex-wrap: wrap;
+    }
 }
 
 .tech-item {

@@ -13,6 +13,8 @@ export interface ProjectMeta {
     description: string;
     /** 專案縮圖 */
     cover: string;
+    /** 專案橫幅 */
+    banner: string;
     /** 技術標籤 */
     tags: string[];
     /** 專案類型 */
@@ -40,6 +42,7 @@ export const projects: ProjectMeta[] = [
         title: "現代婦女基金會-活動頁",
         description: "",
         cover: "huhu38org/38org.jpg",
+        banner: "huhu38org/38org-banner.jpg",
         tags: ["SCSS", "Nunjucks", "JavaScript", "GSAP"],
         category: ["前端製作"],
         featured: true,
@@ -49,21 +52,19 @@ export const projects: ProjectMeta[] = [
             github: "https://github.com/AuTiMoThY/38org"
         },
         order: 1
+    },
+    {
+        slug: "meeting-manager",
+        title: "會議管理系統",
+        description: "",
+        cover: "meeting-manager/meeting-manager.jpg",
+        banner: "meeting-manager/meeting-manager-banner.jpg",
+        tags: ["SCSS", "JavaScript", "Vue 3", "Nuxt 3"],
+        category: ["前端製作"],
+        featured: false,
+        published: true,
+        order: 2
     }
-    // {
-    //     slug: "portfolio-nuxt4",
-    //     title: "Portfolio Website",
-    //     description: "使用 Nuxt 4 打造的個人作品集網站，展示前端開發技能。",
-    //     image: "/images/projects/portfolio/cover.jpg",
-    //     tags: ["Nuxt 4", "TypeScript", "Nuxt Content"],
-    //     category: ["前端開發"],
-    //     date: "2025-10-22",
-    //     featured: true,
-    //     published: true,
-    //     github: "https://github.com/yourusername/portfolio-nuxt4",
-    //     order: 2
-    // }
-    // 新增更多專案...
 ];
 
 /**

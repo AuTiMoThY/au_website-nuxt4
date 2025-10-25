@@ -20,7 +20,7 @@ export default defineNuxtConfig({
             routes: ["/"],
             // 在靜態生成時忽略 IPX 錯誤
             ignore: ["/_ipx/**"]
-        }
+        },
     },
     modules: [
         "@pinia/nuxt",
