@@ -47,9 +47,6 @@
         backdrop-filter: blur(4px);
 
         color: var(--primary-light);
-
-        font-family: "Kodchasan", "Noto Sans TC", sans-serif;
-
         @include gradient-border(1px, linear-gradient(45deg, #ffb146, #c2fb70), 1rem, transparent);
         // overflow: hidden;
         // transition: all 0.3s ease-in-out;
@@ -85,18 +82,34 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        &-subtitle {
+            display: flex;
+            .txt {
+                &:not(:first-of-type) {
+                    &::before {
+                        content: "・";
+                        color: var(--gray-0);
+                    }
+                }
+            }
+        }
         &-ft {
             padding-top: 1rem;
             border-top: 1px solid var(--gray-0);
         }
 
         &-skills {
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
+            // flex-wrap: wrap;
             gap: 0.5rem;
+
+            overflow: hidden;
         }
 
         &-skill {
+            white-space: nowrap;
             &:not(:first-of-type) {
                 display: flex;
                 gap: 0.5rem;

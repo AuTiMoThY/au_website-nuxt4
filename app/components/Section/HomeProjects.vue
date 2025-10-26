@@ -32,13 +32,7 @@ const displayedProjects = getFeaturedProjects();
                         class="projects-swiper"
                         :slides-per-view="1"
                         :space-between="0"
-                        :loop="true"
                         :pagination="{ clickable: true }"
-                        :autoplay="{
-                            delay: 5000,
-                            disableOnInteraction: false
-                        }"
-                        :centered-slides="true"
                         :breakpoints="{
                             '768': {
                                 slidesPerView: 2

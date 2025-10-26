@@ -7,7 +7,7 @@
 .project_detail-hd {
     position: relative;
     height: 300px;
-    overflow: hidden;
+    // overflow: hidden;
 
     @include media-down(1024) {
         height: 200px;
@@ -44,6 +44,16 @@
         z-index: 2;
         bottom: 1.5rem;
         width: 100%;
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+
+            @include media-down(1024) {
+                flex-direction: column;
+            }
+        }
     }
 }
 
@@ -99,6 +109,8 @@
         height: auto;
         display: block;
         margin: 1rem 0;
+        box-shadow: $shadow-gray;
+        border-radius: 8px;
     }
 
     // 限制內容中的影片寬度
@@ -115,6 +127,15 @@
 
     :deep(p) {
         margin-bottom: 1rem;
+    }
+
+    :deep(ul) {
+        list-style: disc;
+        list-style-position: inside;
+
+        ul {
+            padding-left: 1.5rem;
+        }
     }
 }
 
@@ -149,4 +170,31 @@
 
 .project-link {
     // 專案連結樣式
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    // margin-bottom: 1.5rem;
+    // font-size: 0.875rem;
+    // color: var(--color-text-secondary);
+
+    @include media-down(1024) {
+        @include absolute($B: -3.5rem, $L: 1rem);
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+            color: var(--color-primary);
+        }
+    }
+
+    .current {
+        color: var(--color-text-primary);
+    }
 }

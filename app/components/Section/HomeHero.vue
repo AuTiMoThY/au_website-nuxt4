@@ -108,12 +108,11 @@ const runAnimations = () => {
     watch(mouseDefault, (newVal) => {
         const x = (newVal.x / window.innerWidth - 0.5) * 20;
         const y = (newVal.y / window.innerHeight - 0.5) * 20;
-        gsap.to(".blob-1", { x: x * 2, y: y * 2, duration: 2 });
-        gsap.to(".blob-2", { x: -x * 1.5, y: -y * 1.5, duration: 2 });
-        gsap.to(".blob-3", { x: x, y: y, duration: 2 });
-        gsap.to(".blob-4", { x: -x * 2.5, y: y * 2.5, duration: 2 });
+        gsap.to(".color-blob-1", { x: x * 2, y: y * 2, duration: 2 });
+        gsap.to(".color-blob-2", { x: -x * 1.5, y: -y * 1.5, duration: 2 });
+        gsap.to(".color-blob-3", { x: x, y: y, duration: 2 });
+        gsap.to(".color-blob-4", { x: -x * 2.5, y: y * 2.5, duration: 2 });
         gsap.to(".hero-content", { x: x * 0.5, y: y * 0.5, duration: 1.5 });
-        console.log(newVal.x, newVal.y);
     });
 
     // document.addEventListener("mousemove", (e) => {

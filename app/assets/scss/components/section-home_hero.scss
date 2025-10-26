@@ -65,21 +65,21 @@
     opacity: 0.6;
     mix-blend-mode: screen;
     &-1 {
-        width: set-vw(500, 1920);
+        width: clamp(300px, set-vw(500, 1920), 500px);
         aspect-ratio: 1 / 1;
         background: radial-gradient(circle, var(--primary), var(--primary-dark));
         top: 20%;
         left: 10%;
     }
     &-2 {
-        width: set-vw(450, 1920);
+        width: clamp(250px, set-vw(450, 1920), 450px);
         aspect-ratio: 1 / 1;
         background: radial-gradient(circle, var(--secondary), var(--secondary-dark));
         bottom: 20%;
         right: 15%;
     }
     &-3 {
-        width: set-vw(400, 1920);
+        width: clamp(200px, set-vw(400, 1920), 400px);
         aspect-ratio: 1 / 1;
         background: radial-gradient(circle, var(--tertiary), var(--tertiary));
         top: 50%;
@@ -88,7 +88,7 @@
         opacity: 0.3;
     }
     &-4 {
-        width: set-vw(350, 1920);
+        width: clamp(150px, set-vw(350, 1920), 350px);
         aspect-ratio: 1 / 1;
         background: radial-gradient(circle, var(--primary), var(--secondary));
         top: 10%;

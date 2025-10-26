@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { getProjectBySlug, getPublishedProjects, type ProjectMeta } from "~/data/projects";
+import { getProjectBySlug } from "~/data/projects";
+import type { ProjectMeta } from "~/data/projects";
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 // 取得路由參數
 const route = useRoute();
-const slug = computed(() => route.params.slug as string);
+const slug = computed(() => {
+    return route.params.slug as string;
+});
+const config = useConfig();
 
 console.log(slug.value);
 console.log(route.path);
@@ -37,6 +43,29 @@ useSeoMeta({
     ogDescription: projectMeta.value?.description,
     ogImage: projectMeta.value?.cover
 });
+
+onMounted(() => {
+    nextTick(() => {
+        // 為內容區域中的所有圖片添加 fancybox 功能
+        const contentArea = document.querySelector('.project_detail-content-inner') as HTMLElement;
+        if (contentArea) {
+            const images = contentArea.querySelectorAll('img');
+            images.forEach(img => {
+                const src = img.getAttribute('src');
+                if (src && !img.closest('a')) {
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.setAttribute('data-fancybox', 'gallery');
+                    link.setAttribute('data-caption', img.getAttribute('alt') || '');
+                    img.parentNode?.insertBefore(link, img);
+                    link.appendChild(img);
+                }
+            });
+            // 綁定 Fancybox
+            Fancybox.bind("[data-fancybox]");
+        }
+    });
+});
 </script>
 <template>
     <div id="pageWrapper" class="page_wrapper page-project_detail" ref="el">
@@ -54,6 +83,13 @@ useSeoMeta({
                         <h1 class="project_detail-title font-h2 txt-gray-0">
                             {{ projectMeta.title }}
                         </h1>
+                        <nav class="breadcrumb txt-gray-0">
+                            <NuxtLink :to="`${config.basePath}`">首頁</NuxtLink>
+                            <span class="separator">/</span>
+                            <NuxtLink :to="`${config.basePath}projects/`">專案</NuxtLink>
+                            <span class="separator">/</span>
+                            <span class="current">{{ projectMeta?.title || project?.title }}</span>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -61,29 +97,18 @@ useSeoMeta({
                 <div class="container">
                     <div class="project_detail-wrap">
                         <div class="project_detail-aside">
-                            <ul class="project_detail-aside-block project-links">
-                                <li class="project-link" v-if="projectMeta.links?.url">
+                            <ul
+                                v-if="projectMeta.links"
+                                class="project_detail-aside-block project-links">
+                                <li v-for="link in projectMeta.links" class="project-link">
                                     <NuxtLink
-                                        :to="projectMeta.links.url"
+                                        :to="link.url"
                                         target="_blank"
                                         class="au_btn au_btn-secondary"
                                         rel="noopener noreferrer">
-                                        <AuBtn txt="查看網站">
+                                        <AuBtn :txt="link.label">
                                             <template #icon-prepend>
-                                                <Icon name="mdi:open-in-new" />
-                                            </template>
-                                        </AuBtn>
-                                    </NuxtLink>
-                                </li>
-                                <li class="project-link" v-if="projectMeta.links?.github">
-                                    <NuxtLink
-                                        :to="projectMeta.links.github"
-                                        target="_blank"
-                                        class="au_btn au_btn-secondary"
-                                        rel="noopener noreferrer">
-                                        <AuBtn txt="GitHub">
-                                            <template #icon-prepend>
-                                                <Icon name="mdi:github" />
+                                                <Icon :name="link.icon" />
                                             </template>
                                         </AuBtn>
                                     </NuxtLink>
@@ -102,14 +127,16 @@ useSeoMeta({
                                 </p>
                             </div>
                         </div>
-                        <ContentRenderer
-                            v-if="project"
-                            :value="project as any"
-                            class="project_detail-content">
-                            <template #empty>
-                                <p>專案內容載入中...</p>
-                            </template>
-                        </ContentRenderer>
+                        <div class="project_detail-content">
+                            <ContentRenderer
+                                v-if="project"
+                                :value="project as any"
+                                class="project_detail-content-inner">
+                                <template #empty>
+                                    <p>專案內容載入中...</p>
+                                </template>
+                            </ContentRenderer>
+                        </div>
                     </div>
                 </div>
             </section>

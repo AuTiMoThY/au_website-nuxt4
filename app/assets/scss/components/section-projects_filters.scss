@@ -20,7 +20,15 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 
+    @include media-down(1024) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     @include rwd-mobile() {
         grid-template-columns: repeat(1, 1fr);
     }
+}
+
+.project-item {
+    min-width: 0;
 }

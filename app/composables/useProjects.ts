@@ -118,16 +118,16 @@ export const useProjects = () => {
      * 取得所有分類
      */
     const getAllCategories = () => {
-        const projects = getPublishedProjects();
-        const categoriesSet = new Set<string>();
+        // const projects = getPublishedProjects();
+        // const categoriesSet = new Set<string>();
 
-        projects.forEach((project: ProjectMeta) => {
-            project.category.forEach((category: string) => categoriesSet.add(category));
+        // projects.forEach((project: ProjectMeta) => {
+        //     project.category.forEach((category: string) => categoriesSet.add(category));
+        //     // categoriesSet.add(project.category);
+        // });
 
-            // categoriesSet.add(project.category);
-        });
-
-        return Array.from(categoriesSet).sort();
+        // return Array.from(categoriesSet).sort().reverse();
+        return ["前端製作", "API串接", "後端製作"];
     };
 
     /**

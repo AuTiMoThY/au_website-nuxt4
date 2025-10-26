@@ -14,7 +14,18 @@
 }
 
 .projects-swiper {
-    padding: 1.5rem;
+    padding: 1.5rem 0 2.5rem;
+
+    :deep(.swiper-pagination) {
+        --swiper-pagination-color: var(--gray-0);
+        bottom: 0;
+    }
+}
+
+.projects-swiper-slide {
+    height: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 // Fallback 樣式（服務器端渲染時使用）

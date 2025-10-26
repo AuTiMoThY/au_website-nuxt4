@@ -1,0 +1,75 @@
+#!/bin/bash
+# Git Post-Receive Hook 範例
+# 複製此檔案到 .git/hooks/post-receive 並修改路徑
+
+# ============================================
+# 配置區域 - 根據實際情況修改這些路徑
+# ============================================
+
+# 工作目錄（實際執行部署的路徑）
+WORK_TREE="/var/www/portfolio-nuxt4"
+
+# Git 目錄（如果是裸倉庫）
+GIT_DIR="/var/www/portfolio.git"
+
+# Node.js 版本管理器路徑（如果有使用 nvm 或 fnm）
+# NVM_PATH="$HOME/.nvm"
+# source "$NVM_PATH/nvm.sh"
+
+# ============================================
+# 部署流程
+# ============================================
+
+echo "🚀 開始自動部署..."
+echo "時間: $(date)"
+
+# 切換到工作目錄
+cd "$WORK_TREE" || exit
+
+# 拉取最新程式碼
+echo "📥 拉取最新程式碼..."
+if [ -n "$GIT_DIR" ]; then
+    git --git-dir="$GIT_DIR" --work-tree="$WORK_TREE" pull origin master
+else
+    git pull origin master
+fi
+
+# 檢查是否拉取成功
+if [ $? -ne 0 ]; then
+    echo "❌ Git pull 失敗"
+    exit 1
+fi
+
+# 安裝依賴
+echo "📦 安裝依賴..."
+npm install --production
+
+# 構建專案
+echo "🔨 構建專案..."
+npm run build
+
+# 檢查構建是否成功
+if [ $? -ne 0 ]; then
+    echo "❌ 構建失敗"
+    exit 1
+fi
+
+# 重啟應用程式
+echo "🔄 重啟應用程式..."
+if command -v pm2 &> /dev/null; then
+    pm2 restart portfolio || pm2 start ecosystem.config.js
+elif command -v systemctl &> /dev/null; then
+    sudo systemctl restart portfolio
+else
+    echo "⚠️  未找到 PM2 或 systemctl，請手動重啟應用程式"
+fi
+
+# 顯示部署結果
+echo "✅ 部署完成！"
+echo "時間: $(date)"
+echo ""
+echo "查看應用程式狀態:"
+if command -v pm2 &> /dev/null; then
+    pm2 status portfolio
+fi
+
