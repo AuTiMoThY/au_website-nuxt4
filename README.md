@@ -78,9 +78,15 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 本專案提供完整的部署文檔：
 
-- 📘 [完整部署指南](./DEPLOYMENT_GUIDE.md) - 詳細的部署選項和配置說明
-- ⚡ [Git 自動部署快速設置](./QUICK_GIT_SETUP.md) - 5 分鐘配置 Git 自動部署
+- 📘 [完整部署指南](./docs/DEPLOYMENT_GUIDE.md) - 詳細的部署選項和配置說明
+- ⚡ [Git 自動部署快速設置](./docs/QUICK_GIT_SETUP.md) - 5 分鐘配置 Git 自動部署
 - 🔧 [Git 自動部署完整指南](./docs/GIT_DEPLOYMENT.md) - 詳細的 Git 部署和 SSH 配置
+
+## 問題排除
+
+如果在開發或部署過程中遇到問題，請參考以下文檔：
+
+- 🔧 [better-sqlite3 問題排除指南](./docs/BETTER_SQLITE3_TROUBLESHOOTING.md) - 解決 Windows + pnpm 環境下的 better-sqlite3 原生模組問題
 
 ### 快速部署命令
 
